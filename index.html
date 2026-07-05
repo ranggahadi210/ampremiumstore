@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AM Premium Store</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#111827;
+color:#fff;
+}
+
+header{
+background:#16a34a;
+padding:18px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:20px;
+}
+
+.box{
+background:#1f2937;
+padding:20px;
+margin-bottom:20px;
+border-radius:15px;
+}
+
+h2{
+color:#22c55e;
+margin-bottom:15px;
+}
+
+ul{
+padding-left:20px;
+line-height:28px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:15px;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#25D366;
+border:none;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#1ebd5a;
+}
+
+.payment{
+line-height:30px;
+font-size:17px;
+}
+
+.note{
+background:#dc2626;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+text-align:center;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+AM PREMIUM STORE
+</header>
+
+<div class="container">
+
+<div class="box">
+<h2>📋 Daftar Harga</h2>
+
+<ul>
+<li>AM Premium Private 1 Tahun - <b>Rp5.000</b> (Garansi 1 Bulan)</li>
+<li>AM Premium Private 1 Tahun - <b>Rp10.000</b> (Garansi 8 Bulan)</li>
+<li>AM Premium Sharing 1 Tahun - <b>Rp5.000</b> (Tanpa Garansi)</li>
+<li>AM Premium Sharing 1 Tahun - <b>Rp8.000</b> (Garansi)</li>
+</ul>
+
+<br>
+
+<b>PRIVATE</b><br>
+Akun dipakai 1 orang (bebas akun pribadi atau akun admin).
+
+<br><br>
+
+<b>SHARING</b><br>
+Akun digunakan bersama lebih dari 2 orang.
+
+<br><br>
+    
+<b>ALL PAYMENT</b><br>
+Qris : 24 Jam<br>
+Dana : 085640349092<br>
+OVO : 085640349092<br>
+GoPay : 085640349092<br><br>
+      
+</div>
+
+<div class="box">
+  
+<h2>Form Pemesanan</h2>
+
+<label>Nama</label>
+<input type="text" id="nama">
+
+<label>Tipe Order</label>
+<select id="tipe" onchange="cekTipe()">
+    <option>Private 5K</option>
+    <option>Private 10K</option>
+    <option>Sharing 5K</option>
+    <option>Sharing 8K</option>
+</select>
+
+<label>Pilih Akun</label>
+<select id="akun" onchange="ubahForm()">
+    <option>Email Sendiri</option>
+    <option>Email Dari Admin</option>
+</select>
+
+<div id="emailDiv">
+
+<label>Email</label>
+<input type="email" id="email">
+
+<label>Password</label>
+<input type="password" id="password">
+
+</div>
+
+<label>Pembayaran</label>
+<select id="pay">
+<option>QRIS</option>
+<option>DANA</option>
+<option>OVO</option>
+<option>GoPay</option>
+</select>
+
+<label>Nomor Tujuan</label>
+<input type="text" id="tujuan" readonly>    
+    
+<button onclick="orderWA()">
+ORDER VIA WHATSAPP
+</button>
+
+<p class="note">
+SERTAKAN BUKTI TRANSFER!
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+function cekTipe() {
+    let tipe = document.getElementById("tipe").value;
+    let akun = document.getElementById("akun");
+
+    if (tipe.includes("Sharing")) {
+        akun.innerHTML = `
+            <option selected>Email Dari Admin</option>
+        `;
+    } else {
+        akun.innerHTML = `
+            <option>Email Sendiri</option>
+            <option>Email Dari Admin</option>
+        `;
+    }
+
+    ubahForm();
+}
+
+function ubahForm() {
+    let akun = document.getElementById("akun").value;
+    let emailDiv = document.getElementById("emailDiv");
+
+    if (akun === "Email Dari Admin") {
+        emailDiv.style.display = "none";
+    } else {
+        emailDiv.style.display = "block";
+    }
+}
+
+// ===== Nomor Tujuan Pembayaran =====
+const nomor = {
+    "QRIS": "-",
+    "DANA": "085640349092",
+    "OVO": "085640349092",
+    "GoPay": "085640349092"
+};
+
+function updateNomor() {
+    let pay = document.getElementById("pay").value;
+    document.getElementById("tujuan").value = nomor[pay];
+}
+
+document.getElementById("pay").addEventListener("change", updateNomor);
+
+// ===== Fungsi Order WhatsApp =====
+function orderWA() {
+    let nama = document.getElementById("nama").value;
+    let tipe = document.getElementById("tipe").value;
+    let akun = document.getElementById("akun").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let pay = document.getElementById("pay").value;
+
+    let pesan = "*ORDER AM PREMIUM*%0A";
+    pesan += "Nama : " + nama + "%0A";
+    pesan += "Tipe : " + tipe + "%0A";
+    pesan += "Jenis Akun : " + akun + "%0A";
+
+    if (akun === "Email Sendiri") {
+        pesan += "Email : " + email + "%0A";
+        pesan += "Password : " + password + "%0A";
+    } else if (akun === "Email Dari Admin") {
+        pesan += "Email : Dari Admin%0A";
+    }
+
+    pesan += "Pembayaran : " + pay + "%0A";
+    pesan += "Nomor Tujuan : " + nomor[pay] + "%0A";
+    pesan += "Saya sudah melakukan transfer.";
+
+    window.open("https://wa.me/628XXXXXXXXXX?text=" + pesan);
+}
+
+window.onload = function () {
+    ubahForm();
+    updateNomor();
+};
+
+</script>
+
+</body>
+</html>
