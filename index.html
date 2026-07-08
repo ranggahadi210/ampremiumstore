@@ -183,86 +183,11 @@ SERTAKAN BUKTI TRANSFER!
 
 </div>
 
-<script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-function cekTipe() {
-    let tipe = document.getElementById("tipe").value;
-    let akun = document.getElementById("akun");
-
-    if (tipe.includes("Sharing")) {
-        akun.innerHTML = `
-            <option selected>Email Dari Admin</option>
-        `;
-    } else {
-        akun.innerHTML = `
-            <option>Email Sendiri</option>
-            <option>Email Dari Admin</option>
-        `;
-    }
-
-    ubahForm();
-}
-
-function ubahForm() {
-    let akun = document.getElementById("akun").value;
-    let emailDiv = document.getElementById("emailDiv");
-
-    if (akun === "Email Dari Admin") {
-        emailDiv.style.display = "none";
-    } else {
-        emailDiv.style.display = "block";
-    }
-}
-
-// ===== Nomor Tujuan Pembayaran =====
-const nomor = {
-    "QRIS": "-",
-    "DANA": "085640349092",
-    "OVO": "085640349092",
-    "GoPay": "085640349092"
-};
-
-function updateNomor() {
-    let pay = document.getElementById("pay").value;
-    document.getElementById("tujuan").value = nomor[pay];
-}
-
-document.getElementById("pay").addEventListener("change", updateNomor);
-
-// ===== Fungsi Order WhatsApp =====
-function orderWA() {
-    let nama = document.getElementById("nama").value;
-    let tipe = document.getElementById("tipe").value;
-    let akun = document.getElementById("akun").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-    let pay = document.getElementById("pay").value;
-
-    let pesan = "*ORDER AM PREMIUM*%0A";
-    pesan += "Nama : " + nama + "%0A";
-    pesan += "Tipe : " + tipe + "%0A";
-    pesan += "Jenis Akun : " + akun + "%0A";
-
-    if (akun === "Email Sendiri") {
-        pesan += "Email : " + email + "%0A";
-        pesan += "Password : " + password + "%0A";
-    } else if (akun === "Email Dari Admin") {
-        pesan += "Email : Dari Admin%0A";
-    }
-
-    pesan += "Pembayaran : " + pay + "%0A";
-    pesan += "Nomor Tujuan : " + nomor[pay] + "%0A";
-    pesan += "Saya sudah melakukan transfer.";
-
-    window.open("https://wa.me/6285640349092?text=" + pesan);
-}
-
-window.onload = function () {
-    ubahForm();
-    updateNomor();
-};
-
-</script>
+<script src="firebase-config.js"></script>
+<script src="chat.js"></script>
 
 </body>
 </html>
